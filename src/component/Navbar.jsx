@@ -177,7 +177,7 @@ function Navbar() {
       {/* Navbar */}
       <div className="navbar">
 
-        <div className="logo">NGA<span>Pro</span></div>
+        <div className="logo">Pan<span>kaj</span></div>
 
         <div className="nav-links">
           <NavLink to="/">Home</NavLink>
