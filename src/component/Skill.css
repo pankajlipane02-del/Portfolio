@@ -1,0 +1,156 @@
+.skills-section {
+  padding: 100px 20px;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #fff;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+
+  opacity: 0;
+  transform: translateY(60px);
+  transition: 1s ease;
+}
+
+.skills-section.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 🔥 Glow Background */
+.bg-shape {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+}
+
+.shape1 {
+  width: 300px;
+  height: 300px;
+  background: #00d4ff;
+  top: -50px;
+  left: -50px;
+}
+
+.shape2 {
+  width: 300px;
+  height: 300px;
+  background: #ff00cc;
+  bottom: -50px;
+  right: -50px;
+}
+
+/* Title */
+.skills-title {
+  font-size: 38px;
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 2;
+}
+
+.skills-sub {
+  color: #ccc;
+  margin-bottom: 50px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Container */
+.skills-container {
+  max-width: 600px;
+  margin: auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* Skill Box */
+.skill {
+  margin-bottom: 25px;
+  text-align: left;
+  padding: 15px;
+  border-radius: 15px;
+
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+
+  transition: 0.4s;
+}
+
+/* Hover Card Effect */
+.skill:hover {
+  transform: scale(1.03);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Info */
+.skill-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+/* Progress Bar Background */
+.progress {
+  width: 100%;
+  height: 10px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* 🔥 Progress Bar */
+.progress-bar {
+  height: 100%;
+  width: 0;
+  border-radius: 10px;
+  transition: width 2s ease;
+  background: linear-gradient(90deg, #00d4ff, #ff00cc);
+}
+
+/* Animation */
+.skills-section.show .html {
+  width: 90%;
+}
+.skills-section.show .css {
+  width: 85%;
+}
+.skills-section.show .js {
+  width: 75%;
+}
+.skills-section.show .react {
+  width: 80%;
+}
+
+/* ✨ Glow Effect on Hover */
+.skill:hover .progress-bar {
+  box-shadow: 0 0 15px #00d4ff, 0 0 25px #ff00cc;
+}
+
+/* 🌟 Shine Effect */
+.progress-bar::after {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 50px;
+  background: rgba(255,255,255,0.5);
+  top: 0;
+  left: -60px;
+  transform: skewX(-25deg);
+}
+
+.skills-section.show .progress-bar::after {
+  animation: shine 2s infinite;
+}
+
+@keyframes shine {
+  100% {
+    left: 110%;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .skills-container {
+    width: 90%;
+  }
+}

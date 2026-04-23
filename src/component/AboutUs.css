@@ -1,0 +1,110 @@
+.aboutus-section {
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #fff;
+  overflow: hidden;
+}
+
+.aboutus-container {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+/* Image */
+.aboutus-img {
+  flex: 1;
+  transform: translateX(-100px);
+  opacity: 0;
+  transition: 0.8s;
+}
+
+.aboutus-img img {
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* Content */
+.aboutus-content {
+  flex: 1;
+  transform: translateX(100px);
+  opacity: 0;
+  transition: 0.8s;
+}
+
+.aboutus-content h4 {
+  color: #00d4ff;
+}
+
+.aboutus-content h2 span {
+  color: #00d4ff;
+}
+
+.aboutus-content p {
+  margin: 15px 0;
+  line-height: 1.6;
+}
+
+/* Cards */
+.aboutus-cards {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  flex: 1;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* Button */
+.aboutus-btn {
+  margin-top: 25px;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 30px;
+  background: #00d4ff;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.aboutus-btn:hover {
+  background: #fff;
+  color: #000;
+}
+
+/* Animation */
+.aboutus-section.show .aboutus-img {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.aboutus-section.show .aboutus-content {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .aboutus-container {
+    flex-direction: column;
+  }
+
+  .aboutus-cards {
+    flex-direction: column;
+  }
+}
