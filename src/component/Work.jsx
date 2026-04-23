@@ -9,7 +9,7 @@ function Work() {
 
   // 🔐 Login
   const handleLogin = () => {
-    if (login.user === "admin" && login.pass === "1234") {
+    if (login.user === "pankaj2646" && login.pass === "shivaji01") {
       setIsAdmin(true);
     } else {
       alert("Wrong credentials ❌");
