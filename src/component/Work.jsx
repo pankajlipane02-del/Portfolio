@@ -1,174 +1,186 @@
 import React, { useState, useEffect } from "react";
 import "./Work.css";
-
-
-import { db, storage } from "./firebase";
-import {
-  collection,
-  addDoc,
-  getDocs,
-  deleteDoc,
-  doc,
-  updateDoc
-} from "firebase/firestore";
-
+ 
+import { db } from "./firebase";
+ 
 import {
   ref,
-  uploadBytes,
-  getDownloadURL
-} from "firebase/storage";
-
+  push,
+  set,
+  onValue,
+  remove
+} from "firebase/database";
+ 
 function Work() {
   const [projects, setProjects] = useState([]);
+  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
+  const [img, setImg] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [login, setLogin] = useState({ user: "", pass: "" });
-
-  const [form, setForm] = useState({
-    title: "",
-    desc: "",
-    link: "",
-    img: null
-  });
-
-  const [editId, setEditId] = useState(null);
-
-  // 🔐 Login
-  const handleLogin = () => {
-    if (login.user === "pankaj2646" && login.pass === "shivaji01") {
-      setIsAdmin(true);
-    } else {
-      alert("Wrong credentials ❌");
-    }
-  };
-
-  const handleLogout = () => {
-    setIsAdmin(false);
-  };
-
-  // 📦 Fetch projects
-  const fetchProjects = async () => {
-    const querySnapshot = await getDocs(collection(db, "projects"));
-    const data = querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
-    setProjects(data);
-  };
-
+const [password, setPassword] = useState("");
+ 
   useEffect(() => {
     fetchProjects();
   }, []);
-
-  // 📝 Input
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+ 
+  const fetchProjects = () => {
+    const projectRef = ref(db, "projects");
+ 
+    onValue(projectRef, (snapshot) => {
+      const data = snapshot.val();
+ 
+      if (data) {
+        const loaded = Object.keys(data).map((key) => ({
+          id: key,
+          ...data[key]
+        }));
+ 
+        setProjects(loaded);
+      } else {
+        setProjects([]);
+      }
+    });
   };
-
-  const handleImage = (e) => {
-    setForm({ ...form, img: e.target.files[0] });
+ 
+  const adminLogin = () => {
+  if (password === "1234") {
+    setIsAdmin(true);
+    setPassword("");
+  } else {
+    alert("Wrong Password");
+  }
+};
+ 
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+ 
+    if (!file) return;
+ 
+    const reader = new FileReader();
+ 
+    reader.onloadend = () => {
+      setImg(reader.result);
+    };
+ 
+    reader.readAsDataURL(file);
   };
-
-  // 💾 Save
-  const saveProject = async () => {
-    if (!form.title || !form.desc) {
+ 
+  const addProject = async () => {
+    if (loading) return;
+ 
+    if (!title || !desc || !img) {
       alert("Fill all fields");
       return;
     }
-
-    let imageUrl = "";
-
-    // upload image
-    if (form.img) {
-      const imageRef = ref(storage, "projects/" + form.img.name);
-      await uploadBytes(imageRef, form.img);
-      imageUrl = await getDownloadURL(imageRef);
-    }
-
-    if (editId) {
-      await updateDoc(doc(db, "projects", editId), {
-        title: form.title,
-        desc: form.desc,
-        link: form.link,
-        img: imageUrl
-      });
-      setEditId(null);
-    } else {
-      await addDoc(collection(db, "projects"), {
-        title: form.title,
-        desc: form.desc,
-        link: form.link,
-        img: imageUrl
-      });
-    }
-
-    setForm({ title: "", desc: "", link: "", img: null });
-    fetchProjects();
+ 
+    setLoading(true);
+ 
+    const projectRef = ref(db, "projects");
+    const newProject = push(projectRef);
+ 
+    await set(newProject, {
+      title,
+      desc,
+      img
+    });
+ 
+    setTitle("");
+    setDesc("");
+    setImg("");
+    setIsOpen(false);
+    setLoading(false);
   };
-
-  // ❌ Delete
+ 
   const deleteProject = async (id) => {
-    await deleteDoc(doc(db, "projects", id));
-    fetchProjects();
+    await remove(ref(db, `projects/${id}`));
   };
-
-  // ✏ Edit
-  const editProject = (p) => {
-    setForm(p);
-    setEditId(p.id);
-  };
-
+ 
   return (
     <section className="projects">
-      <h2>🚀 My Work</h2>
-
-      {!isAdmin ? (
-        <div className="login-box">
-          <input placeholder="Username"
-            onChange={(e)=>setLogin({...login,user:e.target.value})}/>
-          <input type="password" placeholder="Password"
-            onChange={(e)=>setLogin({...login,pass:e.target.value})}/>
-          <button onClick={handleLogin}>Login</button>
-        </div>
-      ) : (
-        <div className="add-project">
-          <input name="title" placeholder="Title"
-            value={form.title} onChange={handleChange}/>
-          <input name="desc" placeholder="Description"
-            value={form.desc} onChange={handleChange}/>
-          <input name="link" placeholder="Link"
-            value={form.link} onChange={handleChange}/>
-          <input type="file" onChange={handleImage}/>
-          <button onClick={saveProject}>
-            {editId ? "Update" : "Add"}
+      <h2 className="section-title">My Projects</h2>
+ 
+      {!isAdmin && (
+  <div className="admin-login">
+    <input
+      type="password"
+      placeholder="Admin Password"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+    />
+    <button onClick={adminLogin}>Login</button>
+  </div>
+)}
+ 
+      {isAdmin && (
+  <button className="open-btn" onClick={() => setIsOpen(true)}>
+    + Add Project
+  </button>
+)}
+ 
+      <div className={`sidebar ${isOpen ? "open" : ""}`}>
+        <div className="sidebar-content">
+          <h2>Add Project</h2>
+ 
+          <input
+            type="text"
+            placeholder="Project Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+ 
+          <label className="file-label">
+            Choose Image
+            <input type="file" accept="image/*" onChange={handleImageUpload} />
+          </label>
+ 
+          {img && (
+            <div className="image-preview">
+              <img src={img} alt="preview" />
+            </div>
+          )}
+ 
+          <input
+            type="text"
+            placeholder="Description"
+            value={desc}
+            onChange={(e) => setDesc(e.target.value)}
+          />
+ 
+          <button onClick={addProject}>
+            {loading ? "Adding..." : "Add Project"}
           </button>
-          <button onClick={handleLogout}>Logout</button>
+ 
+          <button className="close-btn" onClick={() => setIsOpen(false)}>
+            Close
+          </button>
         </div>
-      )}
-
+      </div>
+ 
       <div className="project-container">
-        {projects.map(p => (
-          <div key={p.id} className="project-card">
-            <img src={p.img} alt="" />
-            <h3>{p.title}</h3>
-            <p>{p.desc}</p>
-
-            {p.link && (
-              <a href={p.link} target="_blank">
-                <button>Live</button>
-              </a>
-            )}
-
-            {isAdmin && (
-              <>
-                <button onClick={()=>editProject(p)}>Edit</button>
-                <button onClick={()=>deleteProject(p.id)}>Delete</button>
-              </>
-            )}
+        {projects.map((project) => (
+          <div className="project-card" key={project.id}>
+            <img src={project.img} alt={project.title} />
+ 
+            <h3>{project.title}</h3>
+ 
+            <p>{project.desc}</p>
+ 
+           {isAdmin && (
+  <button
+    className="delete-btn"
+    onClick={() => deleteProject(project.id)}
+  >
+    Delete
+  </button>
+)}
           </div>
         ))}
       </div>
     </section>
   );
 }
-
+ 
 export default Work;
+ 
