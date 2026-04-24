@@ -834,3 +834,19 @@ body {
 
 
 
+/* 🔥 About Image Responsive Fix */
+.about-img {
+  width: 100%;
+  max-width: 450px;
+  height: auto;
+  display: block;
+  margin: auto;
+}
+
+/* 📱 Mobile View */
+@media (max-width: 768px) {
+  .about-img {
+    max-width: 400px;
+    margin-top: 20px;
+  }
+}

@@ -93,7 +93,7 @@ function Home() {
 
             {/* IMAGE */}
             <div className="col-md-5 pt-5  ps-5">
-              <img className='mt-5' src={img35} alt="about" height={500} width={500} />
+              <img className='about-img  mt-5' src={img35} alt="about" height={500} width={500} />
             </div>
 
             <div className="col-md-1"></div>
