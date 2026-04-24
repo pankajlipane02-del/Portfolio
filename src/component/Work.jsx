@@ -1,11 +1,36 @@
 import React, { useState, useEffect } from "react";
 import "./Work.css";
 
-function Work() {
-  const [dark, setDark] = useState(false);
 
+import { db, storage } from "./firebase";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+  updateDoc
+} from "firebase/firestore";
+
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL
+} from "firebase/storage";
+
+function Work() {
+  const [projects, setProjects] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [login, setLogin] = useState({ user: "", pass: "" });
+
+  const [form, setForm] = useState({
+    title: "",
+    desc: "",
+    link: "",
+    img: null
+  });
+
+  const [editId, setEditId] = useState(null);
 
   // 🔐 Login
   const handleLogin = () => {
@@ -18,171 +43,126 @@ function Work() {
 
   const handleLogout = () => {
     setIsAdmin(false);
-    setLogin({ user: "", pass: "" });
   };
 
-  // 📦 Load projects safely
-  const [projects, setProjects] = useState(() => {
-    try {
-      const saved = localStorage.getItem("mywork");
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  });
+  // 📦 Fetch projects
+  const fetchProjects = async () => {
+    const querySnapshot = await getDocs(collection(db, "projects"));
+    const data = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+    setProjects(data);
+  };
 
-  // 💾 Save safely (with quota protection)
   useEffect(() => {
-    try {
-      localStorage.setItem("mywork", JSON.stringify(projects));
-    } catch (error) {
-      console.error("Storage full ❌", error);
-      alert("Storage full! Delete some projects 🚨");
-    }
-  }, [projects]);
+    fetchProjects();
+  }, []);
 
-  // 📝 Form state
-  const [form, setForm] = useState({
-    title: "",
-    desc: "",
-    link: "",
-    img: ""
-  });
-
-  const [editIndex, setEditIndex] = useState(null);
-
-  // ✏ Input change
+  // 📝 Input
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // 🖼 Image handler (NO base64 ❌ → uses URL ✅)
   const handleImage = (e) => {
-    const file = e.target.files[0];
-
-    if (file) {
-      const imageURL = URL.createObjectURL(file); // lightweight
-      setForm({ ...form, img: imageURL });
-    }
+    setForm({ ...form, img: e.target.files[0] });
   };
 
-  // 💾 Save project
-  const saveProject = () => {
-    if (!form.title || !form.desc || !form.img) {
-      alert("Fill all fields ❌");
+  // 💾 Save
+  const saveProject = async () => {
+    if (!form.title || !form.desc) {
+      alert("Fill all fields");
       return;
     }
 
-    if (editIndex !== null) {
-      const updated = [...projects];
-      updated[editIndex] = form;
-      setProjects(updated);
-      setEditIndex(null);
-    } else {
-      setProjects([...projects, form]);
+    let imageUrl = "";
+
+    // upload image
+    if (form.img) {
+      const imageRef = ref(storage, "projects/" + form.img.name);
+      await uploadBytes(imageRef, form.img);
+      imageUrl = await getDownloadURL(imageRef);
     }
 
-    setForm({ title: "", desc: "", link: "", img: "" });
+    if (editId) {
+      await updateDoc(doc(db, "projects", editId), {
+        title: form.title,
+        desc: form.desc,
+        link: form.link,
+        img: imageUrl
+      });
+      setEditId(null);
+    } else {
+      await addDoc(collection(db, "projects"), {
+        title: form.title,
+        desc: form.desc,
+        link: form.link,
+        img: imageUrl
+      });
+    }
+
+    setForm({ title: "", desc: "", link: "", img: null });
+    fetchProjects();
   };
 
   // ❌ Delete
-  const deleteProject = (i) => {
-    setProjects(projects.filter((_, index) => index !== i));
+  const deleteProject = async (id) => {
+    await deleteDoc(doc(db, "projects", id));
+    fetchProjects();
   };
 
   // ✏ Edit
-  const editProject = (i) => {
-    setForm(projects[i]);
-    setEditIndex(i);
+  const editProject = (p) => {
+    setForm(p);
+    setEditId(p.id);
   };
 
   return (
-    <section className={dark ? "projects dark" : "projects"}>
-      <h2 className="section-title">🚀 My Work</h2>
+    <section className="projects">
+      <h2>🚀 My Work</h2>
 
-      {/* Top Bar */}
-      <div className="top-bar">
-        <button className="toggle" onClick={() => setDark(!dark)}>
-          {dark ? "☀ Light" : "🌙 Dark"}
-        </button>
-
-        {isAdmin && (
-          <button className="logout-btn" onClick={handleLogout}>
-            🚪 Logout
-          </button>
-        )}
-      </div>
-
-      {/* Login */}
       {!isAdmin ? (
-        <div className="login-box glass">
-          <input
-            placeholder="Username"
-            onChange={(e) =>
-              setLogin({ ...login, user: e.target.value })
-            }
-          />
-
-          <input
-            type="password"
-            placeholder="Password"
-            onChange={(e) =>
-              setLogin({ ...login, pass: e.target.value })
-            }
-          />
-
+        <div className="login-box">
+          <input placeholder="Username"
+            onChange={(e)=>setLogin({...login,user:e.target.value})}/>
+          <input type="password" placeholder="Password"
+            onChange={(e)=>setLogin({...login,pass:e.target.value})}/>
           <button onClick={handleLogin}>Login</button>
         </div>
       ) : (
-        <div className="add-project glass ">
-          <input
-            name="title"
-            placeholder="Title"
-            value={form.title}
-            onChange={handleChange}
-          />
-          <input
-            name="desc"
-            placeholder="Description"
-            value={form.desc}
-            onChange={handleChange}
-          />
-          <input
-            name="link"
-            placeholder="Live Link"
-            value={form.link}
-            onChange={handleChange}
-          />
-          <input type="file" onChange={handleImage} />
-
+        <div className="add-project">
+          <input name="title" placeholder="Title"
+            value={form.title} onChange={handleChange}/>
+          <input name="desc" placeholder="Description"
+            value={form.desc} onChange={handleChange}/>
+          <input name="link" placeholder="Link"
+            value={form.link} onChange={handleChange}/>
+          <input type="file" onChange={handleImage}/>
           <button onClick={saveProject}>
-            {editIndex !== null ? "Update Project" : "Add Project"}
-          </button><br /><br /><br />
+            {editId ? "Update" : "Add"}
+          </button>
+          <button onClick={handleLogout}>Logout</button>
         </div>
       )}
 
-      {/* Projects */}
       <div className="project-container">
-        {projects.map((p, i) => (
-          <div className="project-card" key={i}>
-            <div className="img-box">
-              <img src={p.img} alt="" />
-            </div>
-
+        {projects.map(p => (
+          <div key={p.id} className="project-card">
+            <img src={p.img} alt="" />
             <h3>{p.title}</h3>
             <p>{p.desc}</p>
 
             {p.link && (
-              <a href={p.link} target="_blank" rel="noreferrer">
-                <button className="live-btn">🌐 Live</button>
+              <a href={p.link} target="_blank">
+                <button>Live</button>
               </a>
             )}
 
             {isAdmin && (
-              <div className="actions">
-                <button onClick={() => editProject(i)}>✏ Edit</button>
-                <button onClick={() => deleteProject(i)}>🗑 Delete</button>
-              </div>
+              <>
+                <button onClick={()=>editProject(p)}>Edit</button>
+                <button onClick={()=>deleteProject(p.id)}>Delete</button>
+              </>
             )}
           </div>
         ))}
