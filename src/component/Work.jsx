@@ -51,7 +51,7 @@ function Work() {
 
   // ✅ LOGIN
   const adminLogin = () => {
-    if (username === "admin" && password === "1234") {
+    if (username === "pankaj2646" && password === "shivaji01") {
       setIsAdmin(true);
       setUsername("");
       setPassword("");
