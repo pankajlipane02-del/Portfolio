@@ -37,6 +37,7 @@ function Navbar() {
         .navbar {
           background: #f5f5f5;
           transition: 0.3s;
+          padding:12px;
         }
 
         body.dark .navbar {
