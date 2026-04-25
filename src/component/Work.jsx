@@ -131,7 +131,7 @@ function Work() {
 
       {/* LOGIN */}
       {!isAdmin && (
-        <div className="admin-login">
+        <div className="admin-login  admin-login">
           <input
             type="text"
             placeholder="Username"

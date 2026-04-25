@@ -286,3 +286,61 @@
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
+
+.admin-login {
+  width: fit-content;
+}
+
+.admin-login input {
+  width: 200px;
+}
+
+/* 🔥 LOGIN FIX FINAL */
+.admin-login {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 20px auto;
+  padding: 12px 18px;
+
+  width: 100%;
+  max-width: 500px;
+
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+.admin-login input {
+  padding: 10px 14px;
+  width: 100%;   /* 🔥 main fix */
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+}
+
+.admin-login button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(45deg, #00f7ff, #0066ff);
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* 📱 MOBILE */
+@media (max-width: 768px) {
+  .admin-login {
+    flex-direction: column;   /* 🔥 vertical */
+    width: 90%;
+  }
+
+  .admin-login input,
+  .admin-login button {
+    width: 100%;
+  }
+}
