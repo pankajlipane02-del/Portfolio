@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
-function Navbar() {
-
+const Navbar = () => {
   const [dark, setDark] = useState(false);
-  const [open, setOpen] = useState(false); // 🔥 NEW
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
+
     if (savedTheme === "dark") {
-      setDark(true);
       document.body.classList.add("dark");
+      setDark(true);
     }
   }, []);
 
@@ -26,177 +26,229 @@ function Navbar() {
     }
   };
 
-  // 🔥 link click → auto close
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <>
       <style>{`
-
-        body {
-          padding-top: 70px;
+        body{
+          padding-top:70px;
+          transition:0.3s;
         }
 
-        .navbar {
-          background: #f5f5f5;
-          transition: 0.3s;
+        body.dark{
+          background:#121212;
+          color:white;
+        }
+
+        .navbar{
+          background:#f5f5f5;
           padding:12px;
+          transition:0.3s;
+          box-shadow:0 2px 10px rgba(0,0,0,0.1);
         }
 
-        body.dark .navbar {
-          background: #1e1e1e;
+        body.dark .navbar{
+          background:#1e1e1e;
         }
 
-        .nav-link {
-          color: black !important;
-          position: relative;
-          padding-bottom: 5px;
+        .navbar-brand{
+          font-size:1.6rem;
+          font-weight:700;
+          color:black !important;
         }
 
-        body.dark .nav-link {
-          color: white !important;
+        body.dark .navbar-brand{
+          color:white !important;
         }
 
-        .navbar-brand {
-          color: black !important;
+        .navbar-nav{
+          gap:20px;
         }
 
-        body.dark .navbar-brand {
-          color: white !important;
+        .nav-link{
+          color:black !important;
+          position:relative;
+          font-weight:500;
         }
 
-        .nav-link::after {
-          content: "";
-          position: absolute;
-          left: 50%;
-          bottom: 0;
-          width: 100%;
-          height: 2px;
-          background: teal;
-          transform: translateX(-50%) scaleX(0);
-          transition: 0.3s;
+        body.dark .nav-link{
+          color:white !important;
         }
 
-        .nav-link:hover::after,
-        .nav-link.active::after {
-          transform: translateX(-50%) scaleX(1);
+        .nav-link::after{
+          content:"";
+          position:absolute;
+          left:50%;
+          bottom:-2px;
+          width:100%;
+          height:2px;
+          background:teal;
+          transform:translateX(-50%) scaleX(0);
+          transition:0.3s;
         }
 
-        .navbar-nav {
-          width: 100%;
-          justify-content: center;
-          gap: 25px;
+        // .nav-link:hover::after,
+        // .nav-link.active::after{
+        //   transform:translateX(-50%) scaleX(1);
+        // }
+
+        .navbar-toggler{
+          border:none;
+          background:none;
         }
 
-        .navbar-toggler {
-          border: none;
+        .theme-btn{
+          width:42px;
+          height:42px;
+          border:none;
+          border-radius:50%;
+          background:teal;
+          color:white;
+          cursor:pointer;
+          font-size:16px;
         }
 
-        .navbar-toggler-icon {
-          filter: invert(0);
-        }
+        @media(max-width:991px){
 
-        body.dark .navbar-toggler-icon {
-          filter: invert(1);
-        }
+          .navbar-collapse{
+            margin-top:15px;
+            padding:15px;
+            border-radius:12px;
+          }
 
-        /* 🔥 smooth animation */
-        .navbar-collapse {
-          transition: all 0.3s ease;
-        }
+          .navbar-nav{
+            text-align:center;
+            gap:10px;
+          }
 
+          .right-section{
+            justify-content:center;
+            margin-top:10px;
+          }
+        }
       `}</style>
 
       <nav className="navbar navbar-expand-lg fixed-top">
         <div className="container-fluid">
 
-          {/* LOGO */}
-          <span className="navbar-brand fw-bold">
+          {/* Logo */}
+          <NavLink
+            to="/"
+            className="navbar-brand text-decoration-none"
+            onClick={handleClose}
+          >
             Pan<span style={{ color: "teal" }}>kaj</span>
-          </span>
+          </NavLink>
 
-          {/* 🔥 TOGGLER (Bootstrap data removed) */}
+          {/* Mobile Toggle */}
           <button
             className="navbar-toggler"
-            type="button"
             onClick={() => setOpen(!open)}
           >
-            <span className="navbar-toggler-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                <path fill="rgb(8, 8, 8)" d="M96 160C96 142.3 110.3 128 128 128L512 128C529.7 128 544 142.3 544 160C544 177.7 529.7 192 512 192L128 192C110.3 192 96 177.7 96 160zM96 320C96 302.3 110.3 288 128 288L512 288C529.7 288 544 302.3 544 320C544 337.7 529.7 352 512 352L128 352C110.3 352 96 337.7 96 320zM544 480C544 497.7 529.7 512 512 512L128 512C110.3 512 96 497.7 96 480C96 462.3 110.3 448 128 448L512 448C529.7 448 544 462.3 544 480z"/>
-              </svg>
+            <span
+              style={{
+                fontSize: "26px",
+                color: dark ? "#fff" : "#000",
+              }}
+            >
+              {open ? "✕" : "☰"}
             </span>
           </button>
 
-          {/* 🔥 CONTROLLED COLLAPSE */}
-          <div className={`collapse navbar-collapse ${open ? "show" : ""}`} id="navbarNav">
-
+          {/* Menu */}
+          <div className={`collapse navbar-collapse ${open ? "show" : ""}`}>
             <ul className="navbar-nav mx-auto">
 
               <li className="nav-item">
-                <NavLink className="nav-link" to="/" onClick={handleClose}>Home</NavLink>
+                <NavLink
+                  to="/"
+                  className="nav-link"
+                  onClick={handleClose}
+                >
+                  Home
+                </NavLink>
               </li>
 
               <li className="nav-item">
-                <NavLink className="nav-link" to="/about" onClick={handleClose}>About</NavLink>
+                <NavLink
+                  to="/about"
+                  className="nav-link"
+                  onClick={handleClose}
+                >
+                  About
+                </NavLink>
               </li>
 
               <li className="nav-item">
-                <NavLink className="nav-link" to="/services" onClick={handleClose}>Services</NavLink>
+                <NavLink
+                  to="/services"
+                  className="nav-link"
+                  onClick={handleClose}
+                >
+                  Services
+                </NavLink>
               </li>
 
               <li className="nav-item">
-                <NavLink className="nav-link" to="/skill" onClick={handleClose}>Skills</NavLink>
+                <NavLink
+                  to="/skill"
+                  className="nav-link"
+                  onClick={handleClose}
+                >
+                  Skills
+                </NavLink>
               </li>
 
               <li className="nav-item">
-                <NavLink className="nav-link" to="/work" onClick={handleClose}>Work</NavLink>
+                <NavLink
+                  to="/work"
+                  className="nav-link"
+                  onClick={handleClose}
+                >
+                  Work
+                </NavLink>
               </li>
 
               <li className="nav-item">
-                <NavLink className="nav-link" to="/pricing" onClick={handleClose}>Pricing</NavLink>
+                <NavLink
+                  to="/pricing"
+                  className="nav-link"
+                  onClick={handleClose}
+                >
+                  Pricing
+                </NavLink>
               </li>
 
               <li className="nav-item">
-                <NavLink className="nav-link" to="/contact" onClick={handleClose}>Contact</NavLink>
+                <NavLink
+                  to="/contact"
+                  className="nav-link"
+                  onClick={handleClose}
+                >
+                  Contact
+                </NavLink>
               </li>
 
             </ul>
 
-            {/* RIGHT SIDE */}
-            <div className="d-flex gap-2">
-
+            {/* Right Side */}
+            <div className="d-flex gap-2 right-section">
               <button
+                className="theme-btn"
                 onClick={toggleTheme}
-               style={{
-  width: "42px",
-  height: "42px",
-  borderRadius: "50%",
-  border: "none",
-  background: "teal",
-  color: "white",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  cursor: "pointer",
-  fontSize: "14px",
-}}
               >
                 {dark ? "☀️" : "🌙"}
               </button>
-
-              {/* <button className="btn btn-success">
-                LETS TALK
-              </button> */}
-
             </div>
 
           </div>
-
         </div>
       </nav>
     </>
   );
-}
+};
 
 export default Navbar;
