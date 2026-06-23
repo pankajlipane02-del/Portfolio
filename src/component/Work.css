@@ -323,12 +323,13 @@
 }
 
 .admin-login button {
-  padding: 10px 16px;
+  padding: 10px 36px;
   border-radius: 8px;
   border: none;
   background: linear-gradient(45deg, #00f7ff, #0066ff);
   color: white;
   cursor: pointer;
+  text-align: center;
   transition: 0.3s;
 }
 

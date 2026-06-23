@@ -168,27 +168,26 @@ function Navbar() {
 
               <button
                 onClick={toggleTheme}
-                style={{
-                  width: "56px",
-                  height: "50px",
-                  borderRadius: "50%",
-                  border: "none",
-                  background: "teal",
-                  color: "white",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  fontSize: "16px",
-                  marginTop:"5px",
-                }}
+               style={{
+  width: "42px",
+  height: "42px",
+  borderRadius: "50%",
+  border: "none",
+  background: "teal",
+  color: "white",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  cursor: "pointer",
+  fontSize: "14px",
+}}
               >
                 {dark ? "☀️" : "🌙"}
               </button>
 
-              <button className="btn btn-success">
+              {/* <button className="btn btn-success">
                 LETS TALK
-              </button>
+              </button> */}
 
             </div>
 
