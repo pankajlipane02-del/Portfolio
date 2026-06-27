@@ -850,3 +850,7 @@ body {
     margin-top: 20px;
   }
 }
+
+h1{
+  overflow-y: hidden;
+}
