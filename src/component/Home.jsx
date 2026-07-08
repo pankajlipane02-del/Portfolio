@@ -189,23 +189,28 @@ function Home() {
             <div className="col-md-2 col-6 box2">Cooking</div>
             <div className="col-md-2 col-6 box2">Music</div>
             <div className="col-md-2 col-6 box2">Digital Marketing</div>
-            <div className="col-md-2 col-6 box2">Graphic Design</div>
+           
           </div><br />
-          <div className="row g-3">
+          <div className="row g-3 d-flex justify-content-around">
             <div className="col-md-2 col-6 box2">Photography</div>
             <div className="col-md-2 col-6 box2">DevOps</div>
             <div className="col-md-2 col-6 box2">WP Optimization</div>
             <div className="col-md-2 col-6 box2">Blogging</div>
             <div className="col-md-2 col-6 box2">Coding</div>
-            <div className="col-md-2 col-6 box2">Gaming</div>
+            
           </div><br />
-          <div className="row g-3">
+          <div className="row g-3 d-flex justify-content-around">
             <div className="col-md-2 col-6 box2">UX Research</div>
             <div className="col-md-2 col-6 box2">Project Manage</div>
             <div className="col-md-2 col-6 box2">Writing</div>
             <div className="col-md-2 col-6 box2">Reading</div>
             <div className="col-md-2 col-6 box2">Swimming</div>
-            <div className="col-md-2 col-6 box2">Dancing</div>
+        
+          </div><br />
+          <div className="row g-3 d-flex justify-content-around">
+               <div className="col-md-2 col-6 box2">Dancing</div>
+                <div className="col-md-2 col-6 box2">Graphic Design</div>
+                <div className="col-md-2 col-6 box2">Gaming</div>
           </div>
         </div>
       </div>

@@ -11,7 +11,9 @@ function Skill() {
           sectionRef.current.classList.add("show");
         }
       },
-      { threshold: 0.3 }
+      {
+        threshold: 0.3,
+      }
     );
 
     if (sectionRef.current) observer.observe(sectionRef.current);
@@ -21,58 +23,76 @@ function Skill() {
     };
   }, []);
 
+  const skills = [
+    {
+      name: "HTML",
+      percent: "90%",
+      class: "html",
+      color: "#ff6b35",
+    },
+    {
+      name: "CSS",
+      percent: "85%",
+      class: "css",
+      color: "#00c6ff",
+    },
+    {
+      name: "JavaScript",
+      percent: "80%",
+      class: "js",
+      color: "#ffd500",
+    },
+    {
+      name: "React",
+      percent: "82%",
+      class: "react",
+      color: "#61dafb",
+    },
+    {
+      name: "Firebase",
+      percent: "78%",
+      class: "firebase",
+      color: "#ff9100",
+    },
+    {
+      name: "Git & GitHub",
+      percent: "75%",
+      class: "git",
+      color: "#ff4d4d",
+    },
+  ];
+
   return (
     <section className="skills-section" ref={sectionRef}>
+      <div className="bg-circle circle1"></div>
+      <div className="bg-circle circle2"></div>
+      <div className="bg-circle circle3"></div>
 
-      {/* 🔥 Glow Background */}
-      <div className="bg-shape shape1"></div>
-      <div className="bg-shape shape2"></div>
+      <h2 className="skills-title">
+        My <span>Skills</span>
+      </h2>
 
-      <h2 className="skills-title">🚀 My Skills</h2>
-      <p className="skills-sub">My technical expertise</p>
+      <p className="skills-subtitle">
+        Technologies I use to build modern web applications.
+      </p>
 
-      <div className="skills-container">
+      <div className="skills-container p-5">
+        {skills.map((skill, index) => (
+          <div
+            className="skill-card"
+            key={index}
+            style={{ "--color": skill.color }}
+          >
+            <div className="skill-top">
+              <h3>{skill.name}</h3>
+              <span>{skill.percent}</span>
+            </div>
 
-        <div className="skill">
-          <div className="skill-info">
-            <p>HTML</p>
-            <span>90%</span>
+            <div className="progress">
+              <div className={`progress-bar ${skill.class}`}></div>
+            </div>
           </div>
-          <div className="progress">
-            <div className="progress-bar html"></div>
-          </div>
-        </div>
-
-        <div className="skill">
-          <div className="skill-info">
-            <p>CSS</p>
-            <span>85%</span>
-          </div>
-          <div className="progress">
-            <div className="progress-bar css"></div>
-          </div>
-        </div>
-
-        <div className="skill">
-          <div className="skill-info">
-            <p>JavaScript</p>
-            <span>75%</span>
-          </div>
-          <div className="progress">
-            <div className="progress-bar js"></div>
-          </div>
-        </div>
-
-        <div className="skill">
-          <div className="skill-info">
-            <p>React</p>
-            <span>80%</span>
-          </div>
-          <div className="progress">
-            <div className="progress-bar react"></div>
-          </div>
-        </div>
-
+        ))}
       </div>
     </section>
   );

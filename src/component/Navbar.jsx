@@ -235,14 +235,14 @@ const Navbar = () => {
             </ul>
 
             {/* Right Side */}
-            <div className="d-flex gap-2 right-section">
+            {/* <div className="d-flex gap-2 right-section">
               <button
                 className="theme-btn"
                 onClick={toggleTheme}
               >
                 {dark ? "☀️" : "🌙"}
               </button>
-            </div>
+            </div> */}
 
           </div>
         </div>
