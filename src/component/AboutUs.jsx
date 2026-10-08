@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import "./AboutUs.css";
-import img from "../assets/img1.png";
+import img from "../assets/Picsart_26-04-21_14-41-00-764.png";
 
 function AboutUs() {
   const sectionRef = useRef();
@@ -51,9 +51,9 @@ function AboutUs() {
             </div>
           </div>
 
-          <a href="20260423_155526.png" download>
-  <button className="aboutus-btn">Download CV</button>
-</a>
+          <a href="/Pankaj-Lipne-CV.txt" download="Pankaj-Lipne-CV.txt">
+            <button className="aboutus-btn">Download CV</button>
+          </a>
         </div>
       </div>
     </section>

@@ -112,10 +112,10 @@ body {
 .bag .col-md-5:last-child {
   animation: fadeRight 1s ease forwards;
 }
-
+/* 
 .bag img {
   animation: floatUpDown 3s ease-in-out infinite;
-}
+} */
 
 .info {
   font-weight: bold;

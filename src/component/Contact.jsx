@@ -100,7 +100,7 @@ const Contact = () => {
             <span>📧</span>
             <div>
               <p>Email</p>
-              <h4>pankajlipane02@email.com</h4>
+              <h4 style={{color:"black"}}>pankajlipane02@email.com</h4>
             </div>
           </div>
 

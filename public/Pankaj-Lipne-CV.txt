@@ -1,0 +1,18 @@
+Pankaj Lipne
+Frontend Developer
+
+Profile:
+Front-end developer focused on building responsive, modern, and user-friendly web interfaces with React.js and related web technologies.
+
+Skills:
+- HTML, CSS, JavaScript
+- React.js, Vite
+- Responsive Design
+- UI/UX Fundamentals
+- Python basics
+
+Experience:
+- Frontend Developer Intern at Baap Company
+
+Education:
+- Bachelor of Computer Science (BCS)

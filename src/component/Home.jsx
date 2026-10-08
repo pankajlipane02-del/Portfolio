@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import emailjs from "@emailjs/browser";
-import img34 from '../assets/image.png'
-import img35 from '../assets/img1.png'
+import img34 from '../assets/Airbrush-IMAGE-ENHANCER-1786356926087-1786356926087-removebg-preview.png'
+import img35 from '../assets/Picsart_26-04-21_14-41-00-764.png'
 import "./Home.css"
 function Home() {
 
@@ -80,7 +80,7 @@ function Home() {
             </div>
             <div className="col-md-2"></div>
             <div className="col-md-5">
-              <img src={img34} alt="hero" height={500} width={500} />
+              <img src={img34} alt="hero" height={510} width={350} />
             </div>
           </div>
         </div>
@@ -99,39 +99,39 @@ function Home() {
             <div className="col-md-1"></div>
 
             {/* CONTENT */}
-            <div className="col-md-5 pt-5 ps-4">
+<div className="col-md-5 pt-5 ps-4">
 
-              <div className="me">About Me</div>
-              <div className="me2">I'm Pankaj Lipne – Frontend Developer</div>
+  <div className="me">About Me</div>
+  <div className="me2">I'm Pankaj Lipne – Frontend Developer</div>
 
-              <p>
-                Mi sadhya <b>Baap Company</b> madhe intern mhanun kaam karto ani
-                frontend development var focus karto. Mi clean, responsive ani
-                interactive web applications banvayla avadto.
-              </p>
+  <p>
+    I am currently working as an intern at <b>Baap Company</b> and
+    focusing on frontend development. I enjoy building clean, responsive,
+    and interactive web applications.
+  </p>
 
-              <div className="me">Education</div>
-              <p>
-                Mi sadhya <b>Bachelor of Computer Science (BCS)</b> karat ahe.
-                College madhun mi programming ani web development madhe strong base
-                build kela ahe.
-              </p>
+  <div className="me">Education</div>
+  <p>
+    I am currently pursuing a <b>Bachelor of Computer Science (BCS)</b>.
+    Through my college education, I have built a strong foundation in
+    programming and web development.
+  </p>
 
-              <div className="me">Skills</div>
-              <p>
-                Mala <b>HTML, CSS, JavaScript, React.js ani Python</b> changlya prakare
-                yetat. Mi modern UI design, API integration ani responsive layouts
-                banvnyat comfortable ahe.
-              </p>
+  <div className="me">Skills</div>
+  <p>
+    I have good knowledge of <b>HTML, CSS, JavaScript, React.js, and Python</b>.
+    I am comfortable with modern UI design, API integration, and building
+    responsive layouts.
+  </p>
 
-              <div className="me">My Work</div>
-              <p>
-                Mi frontend var kaam karat asun real-world projects madhe experience
-                milavtoy. Mi problem solving madhe interest thevto ani complex goshti
-                simple UI madhe convert karayla avadto.
-              </p>
+  <div className="me">My Work</div>
+  <p>
+    I am currently working on frontend development and gaining experience
+    through real-world projects. I am interested in problem-solving and
+    enjoy converting complex ideas into simple and user-friendly interfaces.
+  </p>
 
-            </div>
+</div>
           </div>
         </div>
       </div>
